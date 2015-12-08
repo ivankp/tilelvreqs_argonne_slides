@@ -4,6 +4,12 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, linkcolor=black, citecolor=black, urlcolor=blue}
 
+\usepackage[
+  backend=bibtex,
+  style=numeric-comp,sorting=none,block=ragged,firstinits=false
+]{biblatex}
+\bibliography{tilelvreqs}
+
 \definecolor{class}{RGB}{111,159,207}
 \definecolor{literal}{rgb}{0.58,0,0.82}
 
@@ -14,11 +20,9 @@
 \setbeamertemplate{section in toc}[sections numbered]
 \setbeamertemplate{subsubsection in toc}[subsubsections numbered]
 \setbeamertemplate{footline}{%
-  \hspace*{1mm}%
-  %\usebeamerfont{author in head/foot}%
-  %  \insertshortauthor[width={1.7cm},respectlinebreaks,center],%
-  Ivan Pogrebnyak,
-  %\hspace*{1mm}%
+  \usebeamerfont{author in head/foot}%
+  \insertshortauthor[width={1.7cm},respectlinebreaks,center]%
+  \hspace*{-0.8mm},\ %
   \usebeamerfont{date in head/foot}\insertdate%
   \hspace*{1mm}%
   \usebeamerfont{footline}\url{https://indico.cern.ch/event/467725/}%
@@ -26,6 +30,7 @@
   \insertframenumber/\inserttotalframenumber%
   \hspace*{1mm}
 }
+\setbeamertemplate{bibliography item}{\insertbiblabel}
 
 \def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
 \let\endchangemargin=\endlist
@@ -81,9 +86,7 @@
 }
 
 \frame{\frametitle{Table of contents}
-  \begin{changemargin}{115px}{0px}
-    \tableofcontents
-  \end{changemargin}
+  \tableofcontents
 }
 
 \section{foog bar}
@@ -158,15 +161,20 @@
     \includegraphics[height=140pt]{fig/gbt-sca_intercon}
   \end{changemargin}
 
-  Text~\cite{gary_lvps_cds}
+  Text~\cite{cook05,henk11,henk03,giorgi12,sergei11,xadc,doc128,Usai:2026593,lvps_web,gary_lvps,gary_lvps_cds,hruska_brick,elmb_wiki,ATL-DAQ-2003-053,1748-0221-10-03-C03034,GBT-SCA-Manual6,GBT-SCA-Manual7}
+}
+
+\frame{\frametitle{Acknowledgements}
+This material is based upon work at the Argonne National Laboratory supported by the U.S. Department of Energy, Office of Science,
+Office of Workforce Development for Teachers and Scientists, Office of Science Graduate Student Research
+(SCGSR) program. The SCGSR program is administered by the Oak Ridge Institute for Science and Education for
+the DOE under contract number DE-AC05-06OR23100.
 }
 
 % BIBLIOGRAPHY
-\begin{frame}[allowframebreaks]%in case more than 1 slide needed
-  {\footnotesize
-  \bibliographystyle{ieeetr}
-  \bibliography{tilelvreqs}
-  }
+\begin{frame}[allowframebreaks]{Bibliography}% in case more than 1 slide needed
+  \renewcommand*{\bibfont}{\tiny}
+  \printbibliography
 \end{frame}
 
 \end{document}
