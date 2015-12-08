@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="fLVPS_bubble.pdf">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="79.582572"
+     inkscape:cy="688.39971"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="720"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#ffffff;fill-opacity:0.79326922;stroke:#000000;stroke-width:5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dashoffset:0"
+       d="m 98.280663,334.21552 c -0.09361,-9.20723 4.033117,-18.61269 13.180107,-18.61966 48.86804,-0.0373 202.2813,1.05521 257.82495,0.76251 55.54364,-0.2927 93.57142,-64.28571 93.57142,-64.28571 0,0 -3.10777,35.56472 -2.14285,57.14286 0.96492,21.57814 13.97296,32.14302 13.97693,47.85714 0.0128,50.80109 -0.0859,23.51712 -10e-6,47.72738 0.0862,24.29473 -5.69312,26.67508 -34.51621,26.44077 -61.46492,-0.49967 -276.09965,0.11508 -327.02304,-0.0426 -7.19311,-0.0223 -14.752415,-6.32191 -14.871297,-12.48008 -0.667087,-34.55566 0.09361,-75.29535 0,-84.50258 z"
+       id="rect2991"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="zszczsssssz" />
+    <text
+       xml:space="preserve"
+       style="font-size:9px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Droid Sans;-inkscape-font-specification:Droid Sans"
+       x="120.71429"
+       y="362.36218"
+       id="text3764"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="120.71429"
+         y="362.36218"
+         id="tspan3770"
+         style="font-size:40px">Finger Low Voltage</tspan><tspan
+         sodipodi:role="line"
+         x="120.71429"
+         y="412.36218"
+         id="tspan3768"
+         style="font-size:40px">Power Supplies</tspan></text>
+  </g>
+</svg>
