@@ -7,7 +7,7 @@ all: $(PDF)
 $(PDF): %.pdf: %.tex
 	@pdflatex -interaction=batchmode $* && \
 	bibtex -terse $* && \
-	sleep 1 && \
+	sleep 0.1 && \
 	pdflatex -interaction=batchmode $* && \
 	pdflatex -interaction=batchmode $* || \
 	echo -e "\033[0;31mCompilation failed\033[0m"
