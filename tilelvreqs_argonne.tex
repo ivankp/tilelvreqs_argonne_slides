@@ -22,6 +22,8 @@
 \usepackage{pdfpages}
 \usepackage{pgf}
 
+\usepackage{colortbl}
+
 % Fixes ---------------------------------------------------
 %\usepackage{lmodern}
 \usepackage{silence}
@@ -227,7 +229,9 @@
       \item Most trip could be recovered from by power-cycling.
       \item Some could not be fixed without opening the detector.
     \end{itemize}
-    \item Trips' cause could only be diagnozed during shutdown.
+    \vspace{5mm}
+    \item Trips' cause could only be diagnosed during shutdown.
+    \vspace{5mm}
     \item Slow monitoring information collected by ELMB was not sufficient to identified failed subsystem.
   \end{itemize}
 }
@@ -236,8 +240,10 @@
   \begin{itemize}
     \item The original designed of LVPS brick from Prague proved to have
           design flaws.%~\cite{REF}.
+    \vspace{5mm}
     \item Gary Drake worked on a new LVPS design, which eliminated most
           trips.%~\cite{REF}.
+    \vspace{5mm}
     \item But the monitoring problem still remains.
     \begin{itemize}
       \item Currently, it is still not possible to identify the cause of
@@ -262,12 +268,13 @@
   \end{itemize}
 }
 
-\frame{\frametitle{Use of transients for trip diagnostics}
-  Show current from filter.\\
-  Show voltage from output.
+{
+  \addtocounter{framenumber}{1}
+  \setbeamercolor{background canvas}{bg=}
+  \includepdf[pagecommand={\pagestyle{plain}}]{slides/main_issue}
 }
 
-\frame{\frametitle{ELMB128}
+\frame{\frametitle{ELMB128 and its limitations}
   \begin{itemize}
     \item The main problem is sampling frequency.
   \end{itemize}
@@ -278,41 +285,232 @@
     \includegraphics[height=75pt]{fig/elmb_photo}
   \end{changemargin}
 
+  {\centering\scriptsize
+  \begin{tabular}{p{40mm}|p{66mm}}
+    \hline
+    Component & Limitation \\
+    \hline
+    \hline
+    \href{http://www.cirrus.com/en/pubs/proDatasheet/CS5521-22-23-24-28_F8.pdf}{CS5523} ADC
+    & Nominal maximum digitization rate of 600 Hz \\
+    \href{http://www.pericom.com/assets/Datasheets/107.pdf}{32S12C} 32.768 kHz ADC crystal
+    & Limits the ADC maximum digitization rate to 101 Hz \\
+    \href{http://www.farnell.com/datasheets/1524140.pdf}{HCPL0731}
+      optocoupler between the analog and digital stages
+    & Limits the ADC maximum digitization rate to 30 Hz \\
+    \href{http://www.atmel.com/devices/atmega128.aspx}{Atmega128L} microcontroller
+    & Allows for local storage of only one value per channel \\
+    \hline
+  \end{tabular}
+  }
+}
+
+%**********************************************************
+
+\section{Use of transients for trip diagnostics}
+\frame{\frametitle{Outline}\tableofcontents[currentsection]}
+
+\frame{\frametitle{Use of transients for trip diagnostics}
+  \begin{changemargin}{-20px}{-20px}
+    \centering
+    % trim=left bottom right top
+    \includegraphics[height=140pt,trim=10px 6px 50px 10px,clip]{fig/current}
+    \includegraphics[height=140pt,trim=10px 6px 50px 10px,clip]{fig/direct_Vout}
+  \end{changemargin}
+  {\scriptsize
   \begin{itemize}
-    \item Features on-board programmable micro-processor.
+    \item The current reaches the over-current threshold when the brick is overloaded ({\color{red}red line}).
+    \item The current does not rise to the same level when a brick experiences
+          an internal failure or a shut down ({\color[HTML]{008000}green line}).
+    \item The information is sufficient to diagnose the cause of the trip.
+    \item The shape of the pulse depends on the parameters of the filter circuit.
+    \item Output voltage decays linearly because active load, used at the test bench,
+          adjusts impedance to consume constant current.
   \end{itemize}
+  }
 }
 
 \frame{\frametitle{LVPS brick monitoring filter}
-
-}
-
-\frame{\frametitle{Use of trip transients for diagnostics}
-  Show current from filter.\\
-  Show voltage from filter.
+  \begin{changemargin}{-20px}{-20px}
+    \centering
+    \includegraphics[height=240pt]{fig/filter}
+  \end{changemargin}
 }
 
 \frame{\frametitle{10V brick transients}
-  Show current from filter.\\
-  Show voltage from filter. \\ .\\
-  Explain that this is due to the filter.
+  \begin{changemargin}{-20px}{-20px}
+    \centering
+    % trim=left bottom right top
+    \includegraphics[height=140pt,trim=10px 6px 50px 10px,clip]{fig/current}
+    \includegraphics[height=140pt,trim=10px 6px 50px 10px,clip]{fig/current_10V}
+  \end{changemargin}
+  \begin{itemize}
+    \item Purely an artifact of the filter circuit.
+    \item Common features are visible.
+    \item Adjustment of RC components should mitigate this effect.
+  \end{itemize}
 }
+
+%**********************************************************
+
+\section{Requirements for Phase-II upgrade}
+\frame{\frametitle{Outline}\tableofcontents[currentsection]}
 
 \frame{\frametitle{Requirements for LVPS bricks}
-
+  \begin{itemize}
+    \item Tune brick signal filter circuits to improve
+          differentiability between load short circuit and internal failure
+          trips.
+    \begin{itemize}
+      \item May be as trivial as adjusting RC components
+    \end{itemize}
+    \vspace{10mm}
+    \item If the rise in current transient for internal failure trip can be
+          sufficiently reduced, failure type identification may be
+          simplified to a threshold condition for peak of the transient.
+  \end{itemize}
 }
 
-\frame{\frametitle{Requirements for ELMB++}
-
+\frame{\frametitle{Wishlist for the ELMB++ (hardware)}
+  \begin{itemize}
+    \item {\bf 2 ksps monitoring rate} for every brick output current
+    \begin{itemize}
+      \item Other parameters can be monitored at a much slower rate
+      \item Higher then 500 sps, because changes in filter circuit may shrink transients.
+      \item Due to output capacitance, brick transients cannot be shorter then 1 ms.
+    \end{itemize}
+    \item {\bf On-board memory} to store last 10 output current measurements
+    \item {\bf ``Black box" memory} to store last 10 measurements prior to a trip
+    \begin{itemize}
+      \item Rewritable only after successfully copied to DCS
+    \end{itemize}
+    \item Store last reported to DCS value for every parameter.
+    \item {\bf External ELMB power} to allow continued monitoring in case any or all
+    bricks trip
+    \item {\bf 10 bit ADC} is sufficient (ELMB128 uses 16 bit ADC)
+    \item Must have {\bf comparable size}
+  \end{itemize}
 }
+
+\frame{\frametitle{Wishlist for the ELMB++ (firmware)}
+  \begin{itemize}
+    \item {\it In-situ} trip type identification
+    \item Push alarms to DCS
+    \item Under normal operation, send updated values to DCS only if
+    \begin{itemize}
+      \item Change sufficiently from previously reported
+      \item Cross warning threshold
+      \item Have not reported in long time
+    \end{itemize}
+    \item Monitoring algorithm must allow to detect simultaneous trips
+    \item Present CANbus speed should suffice (125 kbit/s)
+    \begin{itemize}
+      \item Under normal operating mainly send infrequent updates on operating
+            parameters
+      \item In case of trip, relevant measurements can be retrieved from black box
+            memory
+    \end{itemize}
+  \end{itemize}
+}
+
+\frame{\frametitle{Requirements for the ELMB++ Mother Board}
+  \begin{itemize}
+    \item Provide digital signals for individual brick power-cycling
+    \begin{itemize}
+      \item No more group shutdown, bricks operate independently
+    \end{itemize}
+    \vspace{10mm}
+    \item Will have to be updated for ELMB++ anyway
+  \end{itemize}
+}
+
+\definecolor{Green}{HTML}{92D050}
+\definecolor{Yellow}{HTML}{FFC000}
+\definecolor{Blue}{HTML}{31859C}
 
 \frame{\frametitle{Radiation tolerance requirements}
-
+  {\centering
+  \small
+  Comparison of simulated and measured quantities of radiation exposure scaled to $3~\mathsf{ab}^{-1}$ integrated luminosity at 14 TeV. Safety factors are not included.
+  \tiny
+  \begin{tabular}{%
+  |c%
+  |>{\columncolor{Yellow}}c|>{\columncolor{Yellow}}c%
+  |>{\columncolor{Green}}c|>{\columncolor{Green}}c%
+  |>{\columncolor{Blue}}c|}
+  \hline
+  \rowcolor[gray]{0.8}
+   & Simulation & RadMon measured & Simulation & RadMon measured & Simulation \\
+  \rowcolor[gray]{0.8}
+  Region
+  & TID $[\mathsf{rad}]$ & TID $[\mathsf{rad}]$
+  & NIEL $[\mathsf{cm}^{-2}]$ & NIEL $[\mathsf{cm}^{-2}]$
+  & SEE $[\mathsf{cm}^{-2}]$ \\
+  \hline
+  Tile Daughter Board &
+  $1.31\times 10^{2}$ &
+   &
+  $2.26\times 10^{11}$ &
+   &
+  $1.71\times 10^{10}$ \\
+  \hline
+  Tile barrel finger &
+  $6.33\times 10^{3}$ &
+  0.6 -- 4.4 $\times 10^3$ &
+  $1.61\times 10^{12}$ &
+  1.8 -- 5.1 $\times 10^{12}$ &
+  $3.40\times 10^{11}$ \\
+  \hline
+  Tile endcap &
+  $1.01\times 10^{3}$ &
+   &
+  $1.39\times 10^{11}$ &
+   &
+  $3.83\times 10^{10}$ \\
+  \hline
+  \end{tabular}
+  }
 }
 
 \frame{\frametitle{Requirements for DCS}
+  \begin{itemize}
+    \item Incorporate the new mode of communication with ELMB++
+    \item Take appropriate actions for different failure types
+  \end{itemize}
 
+  {\centering\small
+  \begin{tabular}{p{30mm}|p{76mm}}
+    \hline
+    Trip type & Action \\
+    \hline
+    \hline
+    200V lost
+    & Turn on brick when 200V is on \\
+    Internal brick failure
+    & Attempt to power-cycle \\
+    Brick over-voltage
+    & Attempt to power-cycle \\
+    Brick over-current
+    & Attempt to power-cycle only if the backup brick is functioning \\
+    Over-temperature
+    & Attempt to power-cycle only after temperature decreases \\
+    \hline
+  \end{tabular}
+  }
 }
+
+\frame{\frametitle{Internal note draft on CDS}
+  \url{https://cds.cern.ch/record/2055254}
+  \begin{changemargin}{-20px}{-20px}
+    \centering
+    \includegraphics[width=\linewidth]{fig/cds}
+  \end{changemargin}
+}
+
+%**********************************************************
+
+\section{Alternative solution using GBT-SCA}
+\frame{\frametitle{Outline}\tableofcontents[currentsection]}
 
 \frame{\frametitle{GBT-SCA alternative}
   \begin{changemargin}{-20px}{-20px}
@@ -321,8 +519,9 @@
     \hspace{5px}
     \includegraphics[height=140pt]{fig/gbt-sca_intercon}
   \end{changemargin}
-
-  Text~\cite{cook05,henk11,henk03,giorgi12,sergei11,xadc,doc128,Usai:2026593,lvps_web,gary_lvps,gary_lvps_cds,hruska_brick,elmb_wiki,ATL-DAQ-2003-053,1748-0221-10-03-C03034,GBT-SCA-Manual6,GBT-SCA-Manual7}
+  \begin{textblock}{10}(111,111)
+  \cite{cook05,henk11,henk03,giorgi12,sergei11,xadc,doc128,Usai:2026593,lvps_web,gary_lvps,gary_lvps_cds,hruska_brick,elmb_wiki,ATL-DAQ-2003-053,1748-0221-10-03-C03034,GBT-SCA-Manual6,GBT-SCA-Manual7}
+  \end{textblock}
 }
 
 % Acknowledgements ----------------------------------------
